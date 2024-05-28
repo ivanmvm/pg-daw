@@ -1,0 +1,12 @@
+1. Afegir item
+2. Eliminar item
+3. Buscar items per nom
+4. Buscar items per tipus
+5. Llistar tots els items
+6. Calcular valor total
+7. Calcular pes total
+8. Trobar l'item mes valuat
+9. Trobar l'item mes pesat
+10. Guardar inventari a fitxer JSON
+11. Carregar inventari des de fitxer JSON
+0. Sortir
