@@ -1,26 +1,32 @@
 package com.minipractica;
 
+import java.sql.SQLException;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        DatabaseManager dbManager = new DatabaseManager();
-        dbManager.connect();
+        try {
+            DatabaseManager dbManager = new DatabaseManager();
 
-        // Crear un nou llibre
-        Book book = new Book(1, "Astroboy", "Osamu Tezuka");
-        dbManager.addLlibre(book);
+            // Afegir un nou llibre
+            Book newBook = new Book(0, "DAW", "Manuel Molina", 29.99);
+            dbManager.addBook(newBook);
 
-        // Recuperar llibre
-        Book retrievedStudent = dbManager.getBook(1);
-        System.out.println(retrievedStudent);
+            // Recuperar tots els llibres
+            List<Book> books = dbManager.getAllBooks();
+            for (Book book : books) {
+                System.out.println(book);
+            }
 
-        // Actualitzar estudiant
-        Book.setLastName("Tezuka");
-        
-        dbManager.updateStudent(student);
+            // Actualitzar un llibre existent
+            Book updatedBook = new Book(1, "DIW", "Jose Aranda", 39.99);
+            dbManager.updateBook(updatedBook);
 
-        // Eliminar estudiant
-        dbManager.deleteBook(1);
+            // Eliminar un llibre
+            dbManager.deleteBook(1);
 
-        dbManager.disconnect();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

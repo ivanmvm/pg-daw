@@ -1,97 +1,63 @@
 package com.minipractica;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.database.models.Book;
-
-public class DatabaseManager
-{
+public class DatabaseManager {
+    private static final String URL = "jdbc:mysql://localhost:3306/library";
+    private static final String USER = "root";
+    private static final String PASSWORD = "yourpassword";
     private Connection connection;
 
-    public void connect() {
-        try {
-            connection = DriverManager.getConnection("jdbc:postgresql://172.17.0.2:5432/Book", "postgres", "mysecretpassword");
-            System.out.println("Connexio establerta.");
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public DatabaseManager() throws SQLException {
+        connection = DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    public void addBook(Book book) throws SQLException {
+        String query = "INSERT INTO books (title, author, price) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setDouble(3, book.getPrice());
+            stmt.executeUpdate();
         }
     }
 
-    public Book getStudent(int id) {
-        String query = "SELECT * FROM students WHERE id = ?";
-
-        try {
-            PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new Book(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"));
+    public List<Book> getAllBooks() throws SQLException {
+        List<Book> books = new ArrayList<>();
+        String query = "SELECT * FROM books";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                Book book = new Book(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getDouble("price")
+                );
+                books.add(book);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
-        return null;
+        return books;
     }
 
-    public void addStudent(Book Book) {
-        String query = "INSERT INTO students (id, first_name, last_name) VALUES (?, ?, ?)";
-
-        try {
-            PreparedStatement stmt = connection.prepareStatement(query);
-
-            stmt.setInt(1, Book.getId());
-            stmt.setString(2, Book.getName());
-            stmt.setString(3, Book.getLastName());
+    public void updateBook(Book book) throws SQLException {
+        String query = "UPDATE books SET title = ?, author = ?, price = ? WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setDouble(3, book.getPrice());
+            stmt.setInt(4, book.getId());
             stmt.executeUpdate();
-            System.out.println("Estudiant afegit.");
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
-    public void updateStudent(Book Book) {
-        String query = "UPDATE students SET first_name = ?, last_name = ? WHERE id = ?";
-
-        try {
-            PreparedStatement stmt = connection.prepareStatement(query);
-
-            stmt.setString(1, Book.getName());
-            stmt.setString(2, Book.getLastName());
-            stmt.setInt(3, Book.getId());
-            stmt.executeUpdate();
-            System.out.println("Estudiant modificat.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteStudent(int id) {
-        String query = "DELETE FROM students WHERE id = ?";
-
-        try {
-            PreparedStatement stmt = connection.prepareStatement(query);
+    public void deleteBook(int id) throws SQLException {
+        String query = "DELETE FROM books WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
-            System.out.println("Estudiant eliminat.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void disconnect() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-                System.out.println("Connexio tancada");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }
