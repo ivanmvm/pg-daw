@@ -2,12 +2,12 @@ package com.tetris;
 
 public abstract class Pieza {
     protected int[][] forma;
-    protected int x, y; // Posición de la pieza en el tablero
+    protected int x, y;
 
     public abstract void definirForma();
 
     public void rotar() {
-        // Rotar la pieza (implementación básica)
+        // Rotar la pieza
         int n = forma.length;
         int[][] nuevaForma = new int[n][n];
         for (int i = 0; i < n; i++) {
@@ -19,7 +19,7 @@ public abstract class Pieza {
     }
 
     public void colocarEnTablero(Tablero tablero) {
-        // Colocar la pieza en el tablero (simplificación)
+        // Colocar la pieza en el tablero
         int[][] matriz = tablero.getMatriz();
         for (int i = 0; i < forma.length; i++) {
             for (int j = 0; j < forma[i].length; j++) {

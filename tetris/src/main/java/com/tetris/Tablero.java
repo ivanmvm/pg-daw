@@ -4,7 +4,7 @@ public class Tablero {
     private int[][] matriz;
 
     public Tablero() {
-        this.matriz = new int[20][10]; // Ejemplo de tamaño de tablero
+        this.matriz = new int[20][10]; // Tamaño de tablero
     }
 
     public int[][] getMatriz() {

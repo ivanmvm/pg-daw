@@ -25,10 +25,6 @@ public class Juego {
         piezas.add(new Pieza.L_Piece());
     }
 
-    public void logicaPrincipal() {
-        // Lógica principal del juego
-    }
-
     public void controlFlujo() {
         // Mover la pieza hacia abajo
         piezaActual.y += 1;

@@ -7,13 +7,12 @@ public class Main {
         Controlador controlador = new Controlador(juego, vista);
 
         vista.setVisible(true);
-        controlador.recibirEntradas();
 
         // Bucle principal del juego
         while (true) {
             controlador.actualizarEstado();
             try {
-                Thread.sleep(500); // Controlar la velocidad del juego
+                Thread.sleep(100); // Controlar la velocidad del juego
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

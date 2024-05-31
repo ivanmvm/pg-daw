@@ -39,7 +39,6 @@ public class Vista extends JFrame {
     }
 
     public void mostrarInfo() {
-        // Código para mostrar información del juego (p. ej., puntuación)
     }
 
     public void actualizar() {

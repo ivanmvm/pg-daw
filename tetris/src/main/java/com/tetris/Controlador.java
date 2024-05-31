@@ -9,14 +9,6 @@ public class Controlador {
         this.vista = vista;
     }
 
-    public void recibirEntradas() {
-        // Código para recibir entradas del usuario (por ejemplo, con KeyListener)
-    }
-
-    public void decidirAccion() {
-        // Código para decidir la acción basada en la entrada
-    }
-
     public void actualizarEstado() {
         juego.controlFlujo();
         vista.actualizar();
